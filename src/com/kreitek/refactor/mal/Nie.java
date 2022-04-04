@@ -4,57 +4,92 @@ import java.util.Date;
 
 public class Nie extends Document{
 
-    public Nie(String documentNumber, Date validityDate) {
-        super(documentNumber, validityDate);
-    }
-
     @Override
     public boolean validate() {
-        boolean esValido = false;
+
+        if(isValidatedStructure()){
+
+            completeNieNumber();
+
+            if(isValidatedNumber()){
+                return true;
+            }else{
+                return false;
+            }
+        } else{
+
+            return false;
+        }
+
+    }
+
+    private boolean isValidatedNumber() {
+
+        char controlDigit= ' ';
+        int numericalSerie = 0;
+        int remainder = 0;
+        char[] controlDigits = {'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X','B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'};
+
+
+        controlDigit = Character.toUpperCase(this.documentNumber.charAt(8));
+        numericalSerie = Integer.parseInt(this.documentNumber.substring(1,8));
+
+        remainder = numericalSerie % 23;
+
+        return (controlDigit == controlDigits[remainder]);
+
+    }
+
+    private void completeNieNumber() {
+
+        if(this.documentNumber.substring(0,1).toUpperCase().equals("X")) {
+
+            this.documentNumber = "0" + this.documentNumber.substring(1,9);
+
+        } else if(this.documentNumber.substring(0,1).toUpperCase().equals("Y")) {
+
+            this.documentNumber = "1" + this.documentNumber.substring(1,9);
+
+        } else if(this.documentNumber.substring(0,1).toUpperCase().equals("Z")) {
+
+            this.documentNumber = "2" + this.documentNumber.substring(1,9);
+        }
+
+    }
+
+    private boolean isValidatedStructure(){
+        final int NIE_LENGTH=9;
+        boolean isValidStructure= false;
         int i = 1;
         int caracterASCII = 0;
-        char letra = ' ';
-        int miNIE = 0;
-        int resto = 0;
-        char[] asignacionLetra = {'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X','B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'};
-
-        String nie = this.documentNumber;
-
-        if(nie.length() == 9 && Character.isLetter(nie.charAt(8))
-                && nie.substring(0,1).toUpperCase().equals("X")
-                || nie.substring(0,1).toUpperCase().equals("Y")
-                || nie.substring(0,1).toUpperCase().equals("Z")) {
+        if(this.documentNumber.length() == NIE_LENGTH && Character.isLetter(this.documentNumber.charAt(8))
+                && isValidFirstItem()) {
 
             do {
-                caracterASCII = nie.codePointAt(i);
-                esValido = (caracterASCII > 47 && caracterASCII < 58);
+                caracterASCII = this.documentNumber.codePointAt(i);
+                isValidStructure = (caracterASCII > 47 && caracterASCII < 58);
                 i++;
-            } while(i < nie.length() - 1 && esValido);
+            } while(i < this.documentNumber.length() - 1 && isValidStructure);
         }
+        return isValidStructure;
+    }
 
-        if(esValido && nie.substring(0,1).toUpperCase().equals("X")) {
-            nie = "0" + nie.substring(1,9);
-        } else if(esValido && nie.substring(0,1).toUpperCase().equals("Y")) {
-            nie = "1" + nie.substring(1,9);
-        } else if(esValido && nie.substring(0,1).toUpperCase().equals("Z")) {
-            nie = "2" + nie.substring(1,9);
+    private boolean isValidFirstItem(){
+
+        if(this.documentNumber.substring(0,1).toUpperCase().equals("X")) {
+
+            return true;
+
+        } else if(this.documentNumber.substring(0,1).toUpperCase().equals("Y")) {
+
+            return true;
+
+        } else if(this.documentNumber.substring(0,1).toUpperCase().equals("Z")) {
+
+            return true;
+        }else{
+            return false;
         }
-
-        if(esValido) {
-            letra = Character.toUpperCase(nie.charAt(8));
-            miNIE = Integer.parseInt(nie.substring(1,8));
-            resto = miNIE % 23;
-            esValido = (letra == asignacionLetra[resto]);
-        }
-
-        if (esValido) {
-            return true; // todo OK
-        } else {
-            return false; // algo NOK
-        }
-
-
-
 
     }
 

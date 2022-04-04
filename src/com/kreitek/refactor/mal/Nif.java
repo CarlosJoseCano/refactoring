@@ -4,11 +4,6 @@ import java.util.Date;
 
 public class Nif extends Document{
 
-
-    public Nif(String documentNumber, Date validityDate) {
-        super(documentNumber, validityDate);
-    }
-
     @Override
     public boolean validate() {
         if (!isCorrectLength() || !isCorrectStructure()){

@@ -4,13 +4,16 @@ import java.util.Date;
 
 public abstract class Document implements DocumentPrint,DocumentValidation{
     protected String documentNumber;
-    protected Date validityDate;
 
+    public Document() {
+    }
 
-    public Document(String documentNumber, Date validityDate) {
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+
+    public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
-        this.validityDate = validityDate;
-
     }
 
     @Override

@@ -6,9 +6,7 @@ import java.util.regex.Pattern;
 
 public class Cif extends Document{
 
-    public Cif(String documentNumber, Date validityDate) {
-        super(documentNumber, validityDate);
-    }
+
 
     @Override
     public boolean validate() {
