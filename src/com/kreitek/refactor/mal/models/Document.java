@@ -1,12 +1,10 @@
-package com.kreitek.refactor.mal;
+package com.kreitek.refactor.mal.models;
 
-import java.util.Date;
+import com.kreitek.refactor.mal.interfaces.DocumentPrint;
+import com.kreitek.refactor.mal.interfaces.DocumentValidation;
 
-public abstract class Document implements DocumentPrint,DocumentValidation{
+public abstract class Document implements DocumentPrint, DocumentValidation {
     protected String documentNumber;
-
-    public Document() {
-    }
 
     public String getDocumentNumber() {
         return documentNumber;

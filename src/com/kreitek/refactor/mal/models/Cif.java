@@ -1,9 +1,8 @@
-package com.kreitek.refactor.mal;
+package com.kreitek.refactor.mal.models;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Cif extends Document {
-
 
     @Override
     public boolean validate() {
@@ -11,7 +10,7 @@ public class Cif extends Document {
         if (this.documentNumber != null) {
             String cifUP = this.documentNumber.toUpperCase();
 
-            if (!isValidFirstCaracter(cifUP) || !isValidPattern(cifUP)) {
+            if (!isValidFirstCharacter(cifUP) || !isValidPattern(cifUP)) {
                 return false;
             } else {
                 if (isValidLastDigit(cifUP)) {
@@ -59,12 +58,9 @@ public class Cif extends Document {
     }
 
     private int getTotalofDigitsValues(String cifUP) {
-        final String numericalSerie = cifUP.substring(1, cifUP.length() - 1);
+        String numericalSerie = cifUP.substring(1, cifUP.length() - 1);
         int evenDigits = getTotalEvenDigits(numericalSerie);
-
-
         int oddDigits = getTotalOddDigits(numericalSerie);
-
         return  evenDigits + oddDigits;
     }
 
@@ -82,7 +78,7 @@ public class Cif extends Document {
     }
 
     private int getTotalEvenDigits(String numericalSerie) {
-        // sumo los pares
+
         int evenSum = 0;
         for (int i = 1; i <= numericalSerie.length() - 1; i = i + 2) {
             evenSum += Integer.parseInt(numericalSerie.substring(i, i + 1));
@@ -92,43 +88,22 @@ public class Cif extends Document {
 
     private boolean isValidLastDigit(String cifUP) {
 
+        char lastChar = cifUP.charAt(cifUP.length() - 1);
 
-        final char ultimoCar = cifUP.charAt(cifUP.length() - 1);
-
-        return Character.isLetter(ultimoCar);
-    }
-    private boolean isNumberLastDigit(char ultimoCar) {
-        if (!(ultimoCar >= '0' && ultimoCar <= '9')) {
-            return false; // no es un número --> casco!
-        }
-        return true;
-    }
-
-    private boolean isLetterLastDigit(char ultimoCar) {
-        if (!(ultimoCar >= 'A' && ultimoCar <= 'Z')) {
-            return false; // no es una letra
-        }
-        return true;
+        return Character.isLetter(lastChar);
     }
 
     private boolean isValidPattern(String cifUP) {
         final Pattern mask = Pattern
                 .compile("[ABCDEFGHJKLMNPQRSUVW][0-9]{7}[A-Z[0-9]]{1}");
         final Matcher matcher = mask.matcher(cifUP);
-        if (!matcher.matches()) {
-            return false;
-        }else{
-            return true;
-        }
+        return matcher.matches();
 
     }
 
-    private boolean isValidFirstCaracter(String cifUP) {
-        if ("ABCDEFGHJKLMNPQRSUVW".indexOf(cifUP.charAt(0)) == -1) {
-            return false;
-        }else{
-            return true;
-        }
+    private boolean isValidFirstCharacter(String cifUP) {
+        final String FIRST_CHARACTER_OPTIONS= "ABCDEFGHJKLMNPQRSUVW";
+        return FIRST_CHARACTER_OPTIONS.indexOf(cifUP.charAt(0)) != -1;
 
     }
 

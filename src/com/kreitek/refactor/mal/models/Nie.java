@@ -1,13 +1,11 @@
-package com.kreitek.refactor.mal;
+package com.kreitek.refactor.mal.models;
 
-import java.util.Date;
-
-public class Nie extends Document{
+public class Nie extends Document {
 
     @Override
     public boolean validate() {
 
-        if(isValidatedStructure()){
+        if(isValidStructure()){
 
             completeNieNumber();
 
@@ -17,57 +15,55 @@ public class Nie extends Document{
                 return false;
             }
         } else{
-
             return false;
         }
-
     }
 
     private boolean isValidatedNumber() {
 
-        char controlDigit= ' ';
-        int numericalSerie = 0;
-        int remainder = 0;
+        char controlDigit;
+        int numericalSerieValue;
+        int remainder;
         char[] controlDigits = {'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X','B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'};
 
-
         controlDigit = Character.toUpperCase(this.documentNumber.charAt(8));
-        numericalSerie = Integer.parseInt(this.documentNumber.substring(1,8));
-
-        remainder = numericalSerie % 23;
+        numericalSerieValue = Integer.parseInt(this.documentNumber.substring(1,8));
+        remainder = numericalSerieValue % 23;
 
         return (controlDigit == controlDigits[remainder]);
 
     }
 
     private void completeNieNumber() {
+        String firstItemNie = this.documentNumber.substring(0,1);
+        String remainderDigitsNie = this.documentNumber.substring(1,9);
 
-        if(this.documentNumber.substring(0,1).toUpperCase().equals("X")) {
+        if(firstItemNie.equalsIgnoreCase("X")) {
 
-            this.documentNumber = "0" + this.documentNumber.substring(1,9);
+            this.documentNumber = "0" + remainderDigitsNie;
 
-        } else if(this.documentNumber.substring(0,1).toUpperCase().equals("Y")) {
+        } else if(firstItemNie.equalsIgnoreCase("Y")) {
 
-            this.documentNumber = "1" + this.documentNumber.substring(1,9);
+            this.documentNumber = "1" + remainderDigitsNie;
 
-        } else if(this.documentNumber.substring(0,1).toUpperCase().equals("Z")) {
+        } else if(firstItemNie.equalsIgnoreCase("Z")) {
 
-            this.documentNumber = "2" + this.documentNumber.substring(1,9);
+            this.documentNumber = "2" + remainderDigitsNie;
         }
 
     }
 
-    private boolean isValidatedStructure(){
+    private boolean isValidStructure(){
         final int NIE_LENGTH=9;
         boolean isValidStructure= false;
         int i = 1;
-        int caracterASCII = 0;
+        int characterASCII;
         if(this.documentNumber.length() == NIE_LENGTH && Character.isLetter(this.documentNumber.charAt(8))
                 && isValidFirstItem()) {
 
             do {
-                caracterASCII = this.documentNumber.codePointAt(i);
-                isValidStructure = (caracterASCII > 47 && caracterASCII < 58);
+                characterASCII = this.documentNumber.codePointAt(i);
+                isValidStructure = (characterASCII > 47 && characterASCII < 58);
                 i++;
             } while(i < this.documentNumber.length() - 1 && isValidStructure);
         }
@@ -76,20 +72,15 @@ public class Nie extends Document{
 
     private boolean isValidFirstItem(){
 
-        if(this.documentNumber.substring(0,1).toUpperCase().equals("X")) {
+        if(this.documentNumber.substring(0,1).equalsIgnoreCase("X")) {
 
             return true;
 
-        } else if(this.documentNumber.substring(0,1).toUpperCase().equals("Y")) {
+        } else if(this.documentNumber.substring(0,1).equalsIgnoreCase("Y")) {
 
             return true;
 
-        } else if(this.documentNumber.substring(0,1).toUpperCase().equals("Z")) {
-
-            return true;
-        }else{
-            return false;
-        }
+        } else return this.documentNumber.substring(0, 1).equalsIgnoreCase("Z");
 
     }
 
