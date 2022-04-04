@@ -4,42 +4,49 @@ class  Main
 {
     public static void main(String args[])
     {
+        DocumentFactory documentFactory;
         printTitle();
 
         // creamos un DNI correcto
-        Document dniCorrecto = new Nif();
+        documentFactory= new NifFactory();
+        Document dniCorrecto = documentFactory.createDocument();
         dniCorrecto.setDocumentNumber("11111111H");
         Boolean esValido = dniCorrecto.validate();
         dniCorrecto.consolePrint(dniCorrecto.documentNumber, esValido);
 
         // creamos un DNI incorrecto
-        Document dniIncorrecto01 = new Nif();
+        documentFactory= new NifFactory();
+        Document dniIncorrecto01 = documentFactory.createDocument();
         dniIncorrecto01.setDocumentNumber("24324356A");
         Boolean esValido1 = dniIncorrecto01.validate();
         dniIncorrecto01.consolePrint(dniIncorrecto01.documentNumber, esValido1);
 
         // creamos un NIE correcto
-        Document nieCorrecto = new Nie();
+        documentFactory= new NieFactory();
+        Document nieCorrecto = documentFactory.createDocument();
         nieCorrecto.setDocumentNumber("X0932707B");
         Boolean esValido2 = nieCorrecto.validate();
         nieCorrecto.consolePrint(nieCorrecto.documentNumber, esValido2);
 
 
         // creamos un NIE incorrecto
-        Document nieIncorrecto = new Nie();
+        documentFactory= new NieFactory();
+        Document nieIncorrecto = documentFactory.createDocument();
         nieIncorrecto.setDocumentNumber("Z2691139Z");
         Boolean esValido3 = nieIncorrecto.validate();
         nieIncorrecto.consolePrint(nieIncorrecto.documentNumber, esValido3);
 
 
         // creamos un CIF correcto
-        Document cifCorrecto = new Cif();
+        documentFactory= new CifFactory();
+        Document cifCorrecto = documentFactory.createDocument();
         cifCorrecto.setDocumentNumber("W9696294I");
         Boolean esValido4 = cifCorrecto.validate();
         cifCorrecto.consolePrint(cifCorrecto.documentNumber, esValido4);
 
         // creamos un CIF incorrecto
-        Document cifIncorrecto = new Cif();
+        documentFactory= new NifFactory();
+        Document cifIncorrecto = documentFactory.createDocument();
         cifIncorrecto.setDocumentNumber("W9696294A");
         Boolean esValido5 = cifIncorrecto.validate();
         cifIncorrecto.consolePrint(cifIncorrecto.documentNumber, esValido5);
