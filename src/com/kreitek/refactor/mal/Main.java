@@ -1,41 +1,69 @@
 package com.kreitek.refactor.mal;
 
+import com.kreitek.refactor.mal.factories.CifFactory;
+import com.kreitek.refactor.mal.factories.DocumentFactory;
+import com.kreitek.refactor.mal.factories.NieFactory;
+import com.kreitek.refactor.mal.factories.NifFactory;
+import com.kreitek.refactor.mal.models.Document;
+
 class  Main
 {
+    private static DocumentFactory documentFactory;
+
     public static void main(String args[])
     {
+
+        printTitle();
+        printNif();
+        printNie();
+        printCif();
+
+    }
+
+    private static void printCif() {
+
+        documentFactory= new CifFactory();
+
+        Document correctCif = documentFactory.createDocument();
+        correctCif.setDocumentNumber("W9696294I");
+        correctCif.consolePrint(correctCif.getDocumentNumber(), correctCif.validate());
+
+        Document incorrectCif = documentFactory.createDocument();
+        incorrectCif.setDocumentNumber("W9696294A");
+        incorrectCif.consolePrint(incorrectCif.getDocumentNumber(), incorrectCif.validate());
+    }
+
+    private static void printNie() {
+
+        documentFactory= new NieFactory();
+
+        Document correctNie = documentFactory.createDocument();
+        correctNie.setDocumentNumber("X0932707B");
+        correctNie.consolePrint(correctNie.getDocumentNumber(), correctNie.validate());
+
+        Document incorrectNie = documentFactory.createDocument();
+        incorrectNie.setDocumentNumber("Z2691139Z");
+        incorrectNie.consolePrint(incorrectNie.getDocumentNumber(), incorrectNie.validate());
+    }
+
+    private static void printNif() {
+
+        documentFactory= new NifFactory();
+
+        Document correctNif = documentFactory.createDocument();
+        correctNif.setDocumentNumber("11111111H");
+        correctNif.consolePrint(correctNif.getDocumentNumber(), correctNif.validate());
+
+        Document incorrectNif = documentFactory.createDocument();
+        incorrectNif.setDocumentNumber("24324356A");
+        incorrectNif.consolePrint(incorrectNif.getDocumentNumber(), incorrectNif.validate());
+    }
+
+    private static void printTitle() {
         System.out.println("=====================");
         System.out.println("Vamos a refactorizar!");
         System.out.println("=====================");
-
-        // creamos un DNI correcto
-        DNI dniCorrecto = new DNI(TIPODNI.DNI, "11111111H", null);
-        Boolean esValido = (dniCorrecto.validarDNI() == 1);
-        System.out.println( "DNI " + dniCorrecto.numDNI + " es: " + esValido.toString());
-
-        // creamos un DNI incorrecto
-        DNI dniIncorrecto01 = new DNI(TIPODNI.DNI, "24324356A", null);
-        Boolean esValido01 = (dniIncorrecto01.validarDNI() == 1);
-        System.out.println( "DNI " + dniIncorrecto01.numDNI + " es: " + esValido01.toString());
-
-        // creamos un NIE correcto
-        DNI nieCorrecto = new DNI(TIPODNI.NIE, "X0932707B", null);
-        Boolean esValidoNie = (nieCorrecto.validarDNI() == 1);
-        System.out.println( "NIE " + nieCorrecto.numDNI + " es: " + esValidoNie.toString());
-
-        // creamos un NIE incorrecto
-        DNI nieIncorrecto = new DNI(TIPODNI.NIE, "Z2691139Z", null);
-        Boolean esValidoNieIncorrecto = (nieIncorrecto.validarDNI() == 1);
-        System.out.println( "NIE " + nieIncorrecto.numDNI + " es: " + esValidoNieIncorrecto.toString());
-
-        // creamos un CIF correcto
-        DNI cifCorrecto = new DNI(TIPODNI.CIF, "W9696294I", null);
-        Boolean esValidoCIF = (cifCorrecto.validarDNI() == 1);
-        System.out.println( "CIF " + cifCorrecto.numDNI + " es: " + esValidoCIF.toString());
-
-        // creamos un CIF incorrecto
-        DNI cifIncorrecto = new DNI(TIPODNI.CIF, "W9696294A", null);
-        Boolean esValidoCifIncorrecto = (cifIncorrecto.validarDNI() == 1);
-        System.out.println( "NIE " + cifIncorrecto.numDNI + " es: " + esValidoCifIncorrecto.toString());
     }
+
+
 }
